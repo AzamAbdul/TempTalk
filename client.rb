@@ -20,7 +20,6 @@ def createMessage(message_type,payload)
 
 		message= JSON.generate({"type"=>MessageType::USERNAMECHECK,"username"=>payload})
 	end
-	puts message
 	return message
 end
 
@@ -43,7 +42,8 @@ def establish_username(clientSocket)
  		username = STDIN.gets.strip
  		message = createMessage(MessageType::USERNAMECHECK, username)
  		clientSocket.puts(message)
- 		puts "here"
+ 		response = clientSocket.gets
+ 		puts "response #{response}" 
  		username_created = true
  	end
 end
