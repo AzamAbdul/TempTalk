@@ -5,15 +5,7 @@ $username = ""
 module MessageType
  	USERNAMECHECK = 1
 end
-def serverFunc
-	server = TCPServer.new 0
-	# puts "client server socket #{server.addr[1]}"
-	# STDOUT.flush
-	loop do
-  		client = server.accept    # Wait for a client to connect
-  	
-	end
-end
+
 def createMessage(message_type,payload)
 	message =""
 	if(message_type==MessageType::USERNAMECHECK)
@@ -24,11 +16,17 @@ def createMessage(message_type,payload)
 end
 
 def clientFunc
+	puts "please enter hostname server ip"
+	STDOUT.flush
+	host_ip = STDIN.gets
 	puts "Please enter hostname Server port"
+	STDOUT.flush
 	port = STDIN.gets 
 	puts "here "
-	STDOUT.flush
-	server = TCPSocket.new 'localhost', port.strip
+
+
+
+	server = TCPSocket.new host_ip.strip, port.strip
 	puts "connected to port #{port} on the hostname server "
 	STDOUT.flush
 	establish_username(server)
@@ -49,8 +47,7 @@ def establish_username(clientSocket)
 end
 def driver()
 	clientThread = Thread.new{clientFunc}
-	serverThread = Thread.new(serverFunc)
-	serverThread.join
+	
 	clientThread.join
 end
 
